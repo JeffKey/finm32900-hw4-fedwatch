@@ -1,0 +1,54 @@
+[project]
+name = "HW 4 - FedWatch Monitor"
+description = "Market-implied forecasts of the next FOMC decision from 30-Day Fed Funds futures (ZQ), replicating the simplest case of the CME FedWatch tool"
+maintainer = "Jeremiah Bejarano"
+contributors = ["Jeremiah Bejarano"]
+os_compatibility = ["Windows", "Linux", "macOS"]
+build = """
+doit
+"""
+
+[notebooks]
+
+
+[notebooks.01_fed_funds_futures_data]
+name = "30-Day Fed Funds Futures Data from Databento"
+description = "What ZQ futures are, how the Databento pull works, contract symbology, and prices as implied average rates."
+path = "_output/01_fed_funds_futures_data.ipynb"
+
+
+[notebooks.02_fedwatch_replication]
+name = "Replicating the CME FedWatch Tool"
+description = "The FedWatch methodology for the next FOMC meeting: anchor-month rate, day-weighted meeting-month average, and the binary hike/cut/no-change probabilities."
+path = "_output/02_fedwatch_replication.ipynb"
+
+
+[dataframes]
+
+
+[dataframes.fed_funds_futures]
+name = "30-Day Fed Funds Futures Daily Bars (Databento)"
+description = "Daily OHLCV bars for all listed CME 30-Day Fed Funds futures (ZQ) contracts, roughly the trailing six months"
+path = "_data/fed_funds_futures.parquet"
+date_col = "date"
+tags = ["Monetary Policy", "Futures", "Databento"]
+pull_method = "Databento Historical API via src/pull_fed_funds_futures.py (cost-guarded)"
+docs = """Daily bars from Databento's GLBX.MDP3 dataset (schema `ohlcv-1d`,
+parent symbol `ZQ.FUT`). Includes outright monthly contracts and calendar
+spreads; filter with `fedwatch.filter_outright_contracts`. Prices are in index
+points; the implied average fed funds rate for a contract month is 100 minus
+the price. Refresh with `doit forget pull && doit`."""
+
+
+[charts]
+
+
+[charts.fedwatch_latest_forecast]
+name = "FedWatch: Next FOMC Meeting Probabilities"
+description = "Market-implied probabilities of the next FOMC rate decision from 30-Day Fed Funds futures"
+dataframe = "fed_funds_futures"
+tags = ["Monetary Policy", "Futures", "FedWatch"]
+frequency = "Daily"
+units = "Probability (%)"
+path = "./_output/fedwatch_latest_forecast.html"
+docs_path = "./docs_src/charts/fedwatch_latest_forecast.md"

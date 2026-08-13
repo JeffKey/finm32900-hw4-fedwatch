@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "test_monitor_flag_set",
+      "setup": "",
+      "run": "pytest -vv ./src/test_monitor_self_attestation.py::test_monitor_flag_set",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "test_monitor_url_provided",
+      "setup": "",
+      "run": "pytest -vv ./src/test_monitor_self_attestation.py::test_monitor_url_provided",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "test_fedwatch_math",
+      "setup": "",
+      "run": "pytest -vv ./src/test_fedwatch.py ./src/test_fedwatch_monitor.py",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}

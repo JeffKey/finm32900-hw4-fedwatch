@@ -1,0 +1,22 @@
+name: GitHub Classroom Workflow
+
+on:
+  - push
+  - workflow_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: self-hosted
+    # Skip the Classroom bot's setup pushes, and never run outside the course
+    # orgs: for Task 2 you push this repo to a personal public repo, which has
+    # no self-hosted runner (a queued job there would just hang).
+    if: github.actor != 'github-classroom[bot]' && (github.repository_owner == 'finm-32900' || github.repository_owner == 'hw-finm-32900')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: education/autograding@v1
